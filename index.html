@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LCS Lab | Text Similarity</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="background-grid"></div>
+
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            <span class="logo-symbol">⌬</span>
+            LCS<span>Lab</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#visualizer">Visualizer</a>
+            <a href="#algorithm">Algorithm</a>
+            <a href="#about">About</a>
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            DSA Visualizer
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <div class="hero-badge">
+            DATA STRUCTURES & ALGORITHMS
+        </div>
+
+        <h1>
+            Text Similarity
+            <span>using LCS</span>
+        </h1>
+
+        <p>
+            Visualize the Longest Common Subsequence algorithm
+            and understand how two texts are compared using
+            Dynamic Programming.
+        </p>
+
+    </section>
+
+
+    <!-- MAIN -->
+    <main id="visualizer" class="container">
+
+
+        <!-- INPUT -->
+        <section class="glass-card input-card">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="small-label">
+                        01 / INPUT
+                    </span>
+
+                    <h2>
+                        Compare Two Texts
+                    </h2>
+                </div>
+
+                <button
+                    class="example-btn"
+                    onclick="loadExample()"
+                >
+                    Load Example
+                </button>
+
+            </div>
+
+
+            <div class="input-grid">
+
+
+                <!-- TEXT A -->
+                <div class="text-box">
+
+                    <label>
+
+                        <span class="number">
+                            A
+                        </span>
+
+                        First Text
+
+                    </label>
+
+                    <textarea
+                        id="text1"
+                        placeholder="Enter first text..."
+                    >ABCDGH</textarea>
+
+                    <div class="char-count">
+                        <span id="count1">6</span>
+                        characters
+                    </div>
+
+                </div>
+
+
+                <!-- ARROW -->
+                <div class="compare-symbol">
+                    ⇄
+                </div>
+
+
+                <!-- TEXT B -->
+                <div class="text-box">
+
+                    <label>
+
+                        <span class="number">
+                            B
+                        </span>
+
+                        Second Text
+
+                    </label>
+
+                    <textarea
+                        id="text2"
+                        placeholder="Enter second text..."
+                    >AEDFHR</textarea>
+
+                    <div class="char-count">
+                        <span id="count2">6</span>
+                        characters
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- OPTIONS -->
+            <div class="options">
+
+                <label class="check-option">
+
+                    <input
+                        type="checkbox"
+                        id="ignoreSpaces"
+                    >
+
+                    <span>
+                        Ignore spaces
+                    </span>
+
+                </label>
+
+
+                <label class="check-option">
+
+                    <input
+                        type="checkbox"
+                        id="ignoreCase"
+                    >
+
+                    <span>
+                        Ignore case
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <!-- CONTROLS -->
+            <div class="controls">
+
+                <button
+                    class="primary-btn"
+                    onclick="startVisualization()"
+                >
+                    ▶ Run LCS
+                </button>
+
+
+                <button
+                    class="secondary-btn"
+                    onclick="stepVisualization()"
+                >
+                    Step
+                </button>
+
+
+                <button
+                    class="secondary-btn"
+                    onclick="resetVisualization()"
+                >
+                    ↻ Reset
+                </button>
+
+
+                <!-- SPEED -->
+                <div class="speed-control">
+
+                    <label>
+                        Visualization
+                    </label>
+
+                    <select id="speedMode">
+
+                        <option value="instant">
+                            ⚡ Instant
+                        </option>
+
+                        <option value="fast" selected>
+                            🚀 Fast
+                        </option>
+
+                        <option value="normal">
+                            🎬 Normal
+                        </option>
+
+                        <option value="slow">
+                            🐢 Slow
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STATISTICS -->
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ∑
+                </div>
+
+                <div>
+
+                    <p>
+                        LCS Length
+                    </p>
+
+                    <h3 id="lcsLength">
+                        —
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    %
+                </div>
+
+                <div>
+
+                    <p>
+                        Similarity
+                    </p>
+
+                    <h3 id="similarity">
+                        —
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ↗
+                </div>
+
+                <div>
+
+                    <p>
+                        Matrix Size
+                    </p>
+
+                    <h3 id="matrixSize">
+                        —
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ◈
+                </div>
+
+                <div>
+
+                    <p>
+                        Complexity
+                    </p>
+
+                    <h3>
+                        O(m × n)
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MATRIX -->
+        <section class="glass-card matrix-card">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="small-label">
+                        02 / DYNAMIC PROGRAMMING
+                    </span>
+
+                    <h2>
+                        LCS DP Matrix
+                    </h2>
+
+                </div>
+
+
+                <div class="legend">
+
+                    <div>
+                        <span class="legend-box current"></span>
+                        Current
+                    </div>
+
+                    <div>
+                        <span class="legend-box match"></span>
+                        Match
+                    </div>
+
+                    <div>
+                        <span class="legend-box path"></span>
+                        LCS Path
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MATRIX CONTAINER -->
+            <div class="matrix-wrapper">
+
+                <div
+                    id="matrixContainer"
+                    class="matrix-container"
+                >
+
+                    <div class="matrix-placeholder">
+
+                        <div class="placeholder-icon">
+                            ⌘
+                        </div>
+
+                        <p>
+                            Enter two texts and run the algorithm
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+            <div class="algorithm-status">
+
+                <div class="pulse"></div>
+
+                <span id="statusText">
+                    Ready. Enter two texts and run LCS.
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULT -->
+        <section class="result-grid">
+
+
+            <!-- LCS RESULT -->
+            <div class="glass-card result-card">
+
+                <span class="small-label">
+                    03 / RESULT
+                </span>
+
+                <h2>
+                    Longest Common Subsequence
+                </h2>
+
+
+                <div
+                    class="lcs-result"
+                    id="lcsResult"
+                >
+                    —
+                </div>
+
+
+                <p>
+                    The longest sequence of characters that
+                    appears in both texts while maintaining
+                    their original order.
+                </p>
+
+            </div>
+
+
+            <!-- SCORE -->
+            <div class="glass-card similarity-card">
+
+                <span class="small-label">
+                    SIMILARITY SCORE
+                </span>
+
+
+                <div class="score-circle">
+
+                    <div>
+
+                        <strong id="scoreValue">
+                            0%
+                        </strong>
+
+                        <span>
+                            Match
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="score-bar">
+
+                    <div id="scoreBar"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ALGORITHM -->
+        <section
+            id="algorithm"
+            class="glass-card code-section"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="small-label">
+                        04 / ALGORITHM
+                    </span>
+
+                    <h2>
+                        LCS Implementation
+                    </h2>
+
+                </div>
+
+
+                <div class="language">
+                    JavaScript
+                </div>
+
+            </div>
+
+
+            <div class="code-window">
+
+
+                <div class="code-header">
+
+                    <div class="window-buttons">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                    <span>
+                        lcs.js
+                    </span>
+
+                </div>
+
+
+                <pre><code><span class="keyword">function</span>
+<span class="function">buildLCSMatrix</span>(A, B) {
+
+    <span class="keyword">const</span> m = A.length;
+    <span class="keyword">const</span> n = B.length;
+
+    <span class="keyword">const</span> dp =
+        Array.from(
+            { length: m + 1 },
+            () => Array(n + 1).fill(0)
+        );
+
+    <span class="keyword">for</span> (
+        <span class="keyword">let</span> i = 1;
+        i <= m;
+        i++
+    ) {
+
+        <span class="keyword">for</span> (
+            <span class="keyword">let</span> j = 1;
+            j <= n;
+            j++
+        ) {
+
+            <span class="keyword">if</span>
+            (A[i - 1] === B[j - 1]) {
+
+                dp[i][j] =
+                    dp[i - 1][j - 1] + 1;
+
+            } <span class="keyword">else</span> {
+
+                dp[i][j] =
+                    Math.max(
+                        dp[i - 1][j],
+                        dp[i][j - 1]
+                    );
+            }
+        }
+    }
+
+    <span class="keyword">return</span> dp;
+}</code></pre>
+
+            </div>
+
+        </section>
+
+
+        <!-- HOW IT WORKS -->
+        <section
+            id="about"
+            class="how-section"
+        >
+
+            <div class="section-title">
+
+                <span class="small-label">
+                    05 / CONCEPT
+                </span>
+
+                <h2>
+                    How LCS Works
+                </h2>
+
+            </div>
+
+
+            <div class="steps">
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <h3>
+                        Compare Characters
+                    </h3>
+
+                    <p>
+                        Compare characters from the
+                        two input strings.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Build DP Matrix
+                    </h3>
+
+                    <p>
+                        Store the best LCS length for
+                        every pair of prefixes.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Find Maximum
+                    </h3>
+
+                    <p>
+                        For mismatches, choose the
+                        maximum value from top or left.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        04
+                    </div>
+
+                    <h3>
+                        Backtrack
+                    </h3>
+
+                    <p>
+                        Move backwards through the
+                        matrix to find the LCS.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div>
+            LCS<span>Lab</span>
+        </div>
+
+        <p>
+            Text Similarity using Longest Common Subsequence
+        </p>
+
+        <p>
+            Mini Project • DSA
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
